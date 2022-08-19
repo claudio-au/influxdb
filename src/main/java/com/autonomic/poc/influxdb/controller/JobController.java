@@ -4,6 +4,7 @@ import com.autonomic.poc.influxdb.job.WeatherJobs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
+import javax.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JobController {
 
   private final ScheduledAnnotationBeanPostProcessor postProcessor;
+  @Nullable
   private final WeatherJobs weatherJobs;
   private final ObjectMapper objectMapper;
 
