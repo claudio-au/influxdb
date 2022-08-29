@@ -1,7 +1,7 @@
 package com.autonomic.poc.influxdb.job;
 
 import com.autonomic.poc.influxdb.domain.Weather;
-import com.autonomic.poc.influxdb.domain.repository.WeatherRepository;
+import com.autonomic.poc.influxdb.repository.WeatherRepository;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

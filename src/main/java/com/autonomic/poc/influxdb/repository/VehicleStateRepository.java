@@ -1,11 +1,13 @@
-package com.autonomic.poc.influxdb.domain.repository;
+package com.autonomic.poc.influxdb.repository;
 
 import com.autonomic.poc.influxdb.domain.VehicleState;
 import com.autonomic.poc.influxdb.domain.Weather;
+import com.influxdb.client.domain.Query;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.reactive.InfluxDBClientReactive;
 import com.influxdb.client.reactive.QueryReactiveApi;
 import com.influxdb.client.reactive.WriteReactiveApi;
+import com.influxdb.query.FluxRecord;
 import com.influxdb.query.dsl.functions.restriction.Restrictions;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -37,8 +39,6 @@ public class VehicleStateRepository {
     String query = "from(bucket: \"tss\")"
         + "  |> range(start: "+start+", stop: "+end+")"
         + "  |> filter(fn: (r) => r[\"_measurement\"] == \"vehicle_state\")"
-        //+ "  |> filter(fn: (r) => r[\"_field\"] == \"humidity\" or r[\"_field\"] == \"temperature\")"
-        //+ "  |> aggregateWindow(every: 10s, fn: mean, createEmpty: false)"
         + "  |> limit(n: "+limit+") "
         + "  |> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")";
     log.info(query);

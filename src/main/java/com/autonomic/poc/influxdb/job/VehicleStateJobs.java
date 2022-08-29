@@ -1,20 +1,16 @@
 package com.autonomic.poc.influxdb.job;
 
 import com.autonomic.poc.influxdb.domain.VehicleState;
-import com.autonomic.poc.influxdb.domain.Weather;
-import com.autonomic.poc.influxdb.domain.repository.VehicleStateRepository;
-import com.autonomic.poc.influxdb.domain.repository.WeatherRepository;
+import com.autonomic.poc.influxdb.repository.VehicleStateRepository;
 import com.github.javafaker.Faker;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -62,9 +58,9 @@ public class VehicleStateJobs {
     vehicleState.setVin(VINs.get(driver));
     vehicleState.setLatitude(Double.parseDouble(faker.address().latitude()));
     vehicleState.setLongitude(Double.parseDouble(faker.address().latitude()));
-    vehicleState.setHeading(new Random().nextInt(0,100));
+    vehicleState.setHeading(Long.valueOf(new Random().nextInt(0,100)));
     vehicleState.setBrakePedalStatus(PedalStatus.random().name().toLowerCase());
-    vehicleState.setEngineSpeed(new Random().nextInt(0, 7200));
+    vehicleState.setEngineSpeed(Long.valueOf(new Random().nextInt(0, 7200)));
     vehicleState.setPersonalOrBusiness("Personal");
     vehicleState.setTimestamp(Instant.now());
 

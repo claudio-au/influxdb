@@ -12,9 +12,9 @@ import lombok.Setter;
 public class VehicleState {
 
   @Column
-  private Integer heading;
+  private Long heading;
   @Column
-  private Integer engineSpeed;
+  private Long engineSpeed;
   @Column
   private Double latitude;
   @Column

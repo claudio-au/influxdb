@@ -1,12 +1,11 @@
 package com.autonomic.poc.influxdb.controller;
 
 import com.autonomic.poc.influxdb.domain.Weather;
-import com.autonomic.poc.influxdb.domain.repository.WeatherRepository;
+import com.autonomic.poc.influxdb.repository.WeatherRepository;
 import java.time.Instant;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

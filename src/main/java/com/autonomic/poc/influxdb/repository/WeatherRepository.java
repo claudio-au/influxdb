@@ -1,4 +1,4 @@
-package com.autonomic.poc.influxdb.domain.repository;
+package com.autonomic.poc.influxdb.repository;
 
 import com.autonomic.poc.influxdb.domain.Weather;
 import com.influxdb.client.domain.WritePrecision;
