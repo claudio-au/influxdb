@@ -16,12 +16,12 @@ public class EventDTO {
   @Column
   private BatteryVoltage batteryVoltage;
   @Column
-  private String fuel_level;
+  private Double fuel_level;
   @Column
   private Ignition ignition;
 
   @Column
-  private String odometer;
+  private Double odometer;
 
   @Column(timestamp = true, name = "time")
   private Instant timestamp;

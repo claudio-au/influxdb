@@ -42,7 +42,7 @@ public class EventRepository {
         + "  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n"
         + "  |> aggregateWindow(every: 10s, fn: last, createEmpty: false)\n"
         + "  |> limit(n: "+limit+")"
-        + "  |> map(fn: (r) => ({r with _value: string(v: r[\"_value\"])}))\n"
+        //+ "  |> map(fn: (r) => ({r with _value: string(v: r[\"_value\"])}))\n"
         + "  |> pivot(rowKey:[\"_time\"], columnKey: [\"_measurement\"], valueColumn: \"_value\")\n"
         + "  |> drop(columns: [\"_start\", \"_stop\", \"_field\"])\n"
         + "  |> yield(name: \"event\")";
