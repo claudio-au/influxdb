@@ -3,6 +3,7 @@ package com.autonomic.poc.influxdb.repository;
 import com.autonomic.poc.influxdb.domain.BasicState;
 import com.autonomic.poc.influxdb.domain.BatteryVoltageState;
 import com.autonomic.poc.influxdb.domain.Weather;
+import com.autonomic.poc.influxdb.dto.EventDTO;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.reactive.InfluxDBClientReactive;
 import com.influxdb.client.reactive.QueryReactiveApi;
@@ -34,19 +35,20 @@ public class EventRepository {
     subscriber.dispose();
   }
 
-  public <T> Flux<T> findByDateRange(String start, String end, int limit, String measurement) {
+  public Flux<EventDTO> findByDateRange(String start, String end, int limit) {
     long startTime = System.nanoTime();
-    String query = "from(bucket: \"tss\")"
-        + "  |> range(start: "+start+", stop: "+end+")"
-        + "  |> filter(fn: (r) => r[\"_measurement\"] == \"weather\")"
-        + "  |> filter(fn: (r) => r[\"_field\"] == \""+measurement+"\")"
-        //+ "  |> aggregateWindow(every: 10s, fn: mean, createEmpty: false)"
-        + "  |> limit(n: "+limit+") "
-        + "  |> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")";
+    String query = "from(bucket: \"vsh\")\n"
+        + "  |> range(start: "+start+", stop: "+end+")\n"
+        + "  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n"
+        + "  |> aggregateWindow(every: 10s, fn: last, createEmpty: false)\n"
+        + "  |> limit(n: "+limit+")"
+        + "  |> map(fn: (r) => ({r with _value: string(v: r[\"_value\"])}))\n"
+        + "  |> pivot(rowKey:[\"_time\"], columnKey: [\"_measurement\"], valueColumn: \"_value\")\n"
+        + "  |> drop(columns: [\"_start\", \"_stop\", \"_field\"])\n"
+        + "  |> yield(name: \"event\")";
     log.info(query);
     QueryReactiveApi queryReactiveApi = client.getQueryReactiveApi();
-    Class<T> clazz = (Class<T>) new Object().getClass();
-    Publisher<T> publisher =queryReactiveApi.query(query, clazz);
+    Publisher<EventDTO> publisher =queryReactiveApi.query(query, EventDTO.class);
 
     return Flux.from(publisher)
         .doOnComplete(() -> {
