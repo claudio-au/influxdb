@@ -1,5 +1,7 @@
 package com.autonomic.poc.influxdb.config;
 
+import com.influxdb.client.InfluxDBClient;
+import com.influxdb.client.InfluxDBClientFactory;
 import com.influxdb.client.reactive.InfluxDBClientReactive;
 import com.influxdb.client.reactive.InfluxDBClientReactiveFactory;
 import lombok.Getter;
@@ -30,6 +32,13 @@ public class InfluxDBConfig {
     InfluxDBClientReactive client = InfluxDBClientReactiveFactory
         .create(this.getHost(), this.getToken(), this.getOrg(), this.getBucket());
 
+    return client;
+  }
+
+  @Bean
+  public InfluxDBClient createSyncInfluxConnection() {
+    InfluxDBClient client = InfluxDBClientFactory
+        .create(this.getHost(), this.getToken(), this.getOrg(), this.getBucket());
     return client;
   }
 }

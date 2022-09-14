@@ -6,6 +6,8 @@ import com.autonomic.poc.influxdb.domain.FuelLevelState;
 import com.autonomic.poc.influxdb.domain.IgnitionState;
 import com.autonomic.poc.influxdb.domain.IgnitionState.Ignition;
 import com.autonomic.poc.influxdb.domain.OdometerState;
+import com.autonomic.poc.influxdb.domain.TirePressureState;
+import com.autonomic.poc.influxdb.domain.TirePressureState.TirePressure;
 import com.autonomic.poc.influxdb.repository.EventRepository;
 import com.github.javafaker.Faker;
 import java.time.Instant;
@@ -23,7 +25,7 @@ public class EventJobs {
 
   private final EventRepository eventRepository;
 
-  @Scheduled(fixedRate = 5000)
+  @Scheduled(fixedRate = 1000)
   public void createMetrics() throws InterruptedException {
     String vin = "ABC1234";
     Faker faker = new Faker();
@@ -68,6 +70,16 @@ public class EventJobs {
     odometerState.setValue(Math.random() * 100);
 
     eventRepository.save(odometerState);
+
+    Thread.sleep(100);
+    TirePressureState tirePressureState = new TirePressureState();
+    tirePressureState.setLatitude(latitude);
+    tirePressureState.setLongitude(longitude);
+    tirePressureState.setTimestamp(Instant.now());
+    tirePressureState.setVin(vin);
+    tirePressureState.setValue(TirePressure.getRandom());
+
+    eventRepository.save(tirePressureState);
 
   }
 

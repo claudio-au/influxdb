@@ -6,7 +6,7 @@ import com.influxdb.annotations.Measurement;
 import lombok.Getter;
 import lombok.Setter;
 
-@Measurement(name="battery_voltage")
+@Measurement(name="tire_pressure")
 @Getter
 @Setter
 public class TirePressureState extends BasicState{
